@@ -1,0 +1,50 @@
+﻿@page "/"
+
+<PageTitle>Exchange Rate Aggregator</PageTitle>
+
+<header class="mb-4">
+    <h1>Exchange Rate Aggregator</h1>
+    <p class="lead">
+        Compare exchange rates from multiple providers and inspect their request performance.
+    </p>
+</header>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <section class="card h-100" aria-labelledby="exchange-rates-heading">
+            <div class="card-body d-flex flex-column align-items-start">
+                <h2 id="exchange-rates-heading" class="h4">Exchange rates</h2>
+                <p>
+                    Choose a base currency and date, optionally filter by target currency,
+                    and compare the rates returned by each provider.
+                </p>
+                <a class="btn btn-primary mt-auto" href="exchange-rates">
+                    Browse exchange rates
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-6">
+        <section class="card h-100" aria-labelledby="statistics-heading">
+            <div class="card-body d-flex flex-column align-items-start">
+                <h2 id="statistics-heading" class="h4">Provider statistics</h2>
+                <p>
+                    See request counts, average response times, and latency buckets
+                    for each provider, including activity in the last five minutes.
+                </p>
+                <a class="btn btn-outline-primary mt-auto" href="statistics">
+                    View provider statistics
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+
+<section class="mt-4" aria-labelledby="try-it-heading">
+    <h2 id="try-it-heading" class="h5">Try it</h2>
+    <p>
+        Look up EUR to USD for a past weekday, then open Provider statistics
+        and click <strong>Refresh statistics</strong> to see the recorded requests.
+    </p>
+</section>

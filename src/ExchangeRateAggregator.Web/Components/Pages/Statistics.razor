@@ -1,0 +1,106 @@
+﻿@page "/statistics"
+@rendermode InteractiveServer
+@using System.Net.Http.Json
+@inject IHttpClientFactory HttpClientFactory
+
+<PageTitle>Provider statistics</PageTitle>
+
+<h1>Provider statistics</h1>
+
+<button class="btn btn-primary" @onclick="LoadStatisticsAsync" disabled="@isLoading">
+    @(isLoading ? "Loading…" : "Refresh statistics")
+</button>
+
+@if (errorMessage is not null)
+{
+    <p class="alert alert-danger mt-3" role="alert">@errorMessage</p>
+}
+else if (statistics is { Length: 0 })
+{
+    <p class="mt-3">No provider requests recorded yet.</p>
+}
+else if (statistics is { Length: > 0 })
+{
+    <div class="table-responsive mt-3">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Provider</th>
+                    <th scope="col">Requests</th>
+                    <th scope="col">Avg (ms)</th>
+                    <th scope="col">Fast</th>
+                    <th scope="col">Average</th>
+                    <th scope="col">Slow</th>
+                    <th scope="col">Requests in last 5 min</th>
+                    <th scope="col">Avg in last 5 min (ms)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var provider in statistics)
+                {
+                    <tr>
+                        <th scope="row">@provider.ProviderName</th>
+                        <td>@provider.TotalRequests</td>
+                        <td>@FormatMilliseconds(provider.AverageResponseTimeMilliseconds)</td>
+                        <td>@provider.FastRequests</td>
+                        <td>@provider.AverageRequests</td>
+                        <td>@provider.SlowRequests</td>
+                        <td>@provider.RequestsInLastFiveMinutes</td>
+                        <td>@FormatMilliseconds(provider.AverageResponseTimeInLastFiveMinutesMilliseconds)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private ProviderStatistics[]? statistics;
+    private string? errorMessage;
+    private bool isLoading;
+
+    private async Task LoadStatisticsAsync()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            using var client = HttpClientFactory.CreateClient("ExchangeRateApi");
+
+            statistics = await client.GetFromJsonAsync<ProviderStatistics[]>(
+                "api/exchange-rates/statistics") ?? [];
+        }
+        catch (HttpRequestException exception)
+        {
+            errorMessage = exception.StatusCode is { } statusCode
+                ? $"Statistics request failed (HTTP {(int)statusCode})."
+                : "Could not reach the exchange-rate API.";
+        }
+        catch (OperationCanceledException)
+        {
+            errorMessage = "The statistics request timed out.";
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            errorMessage = "The API returned an invalid statistics response.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private static string FormatMilliseconds(double? value) =>
+        value?.ToString("0.00") ?? "—";
+
+    private record ProviderStatistics(
+        string ProviderName,
+        long TotalRequests,
+        double? AverageResponseTimeMilliseconds,
+        long FastRequests,
+        long AverageRequests,
+        long SlowRequests,
+        long RequestsInLastFiveMinutes,
+        double? AverageResponseTimeInLastFiveMinutesMilliseconds);
+}

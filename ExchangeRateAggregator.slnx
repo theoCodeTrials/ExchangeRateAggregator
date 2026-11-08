@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ExchangeRateAggregator.Api/ExchangeRateAggregator.Api.csproj" />
+    <Project Path="src/ExchangeRateAggregator.Application/ExchangeRateAggregator.Application.csproj" />
+    <Project Path="src/ExchangeRateAggregator.Infrastructure/ExchangeRateAggregator.Infrastructure.csproj" />
+    <Project Path="src/ExchangeRateAggregator.Web/ExchangeRateAggregator.Web.csproj" Id="61a60b6d-ce5e-441a-a788-0107fe682707" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ExchangeRateAggregator.Api.Tests/ExchangeRateAggregator.Api.Tests.csproj" />
+    <Project Path="tests/ExchangeRateAggregator.Application.Tests/ExchangeRateAggregator.Application.Tests.csproj" />
+    <Project Path="tests/ExchangeRateAggregator.Infrastructure.Tests/ExchangeRateAggregator.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>

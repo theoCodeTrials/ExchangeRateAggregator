@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>c15f5eaa-5e9b-410c-8dba-c64aaa175953</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExchangeRateAggregator.Application\ExchangeRateAggregator.Application.csproj" />
+    <ProjectReference Include="..\ExchangeRateAggregator.Infrastructure\ExchangeRateAggregator.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
